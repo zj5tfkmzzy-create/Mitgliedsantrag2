@@ -1,0 +1,359 @@
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitgliedsantrag</title>
+  <style>
+    body {
+      background: #f4f6f8;
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      color: #222;
+    }
+    .mitgliedsformular {
+      max-width: 820px;
+      margin: 40px auto;
+      padding: 40px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+    }
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 5px;
+    }
+    .intro {
+      color: #555;
+      margin-bottom: 25px;
+    }
+    h3 {
+      margin-top: 35px;
+      padding-top: 18px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 1.1rem;
+      color: #111;
+    }
+    .mf-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .mf-col { flex: 1 1 250px; }
+    .mf-full { flex: 1 1 100%; }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 0.95rem;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cfd6dd;
+      border-radius: 4px;
+      background: #fff;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #2f6f4e;
+    }
+    .mf-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 8px 0;
+      font-weight: normal;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .mf-option input {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      accent-color: #2f6f4e;
+      flex: 0 0 auto;
+    }
+    .mf-note {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      font-size: 0.9rem;
+      color: #444;
+    }
+    .datenschutz-text {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    .signature-box {
+      border: 1px solid #cfd6dd;
+      padding: 10px;
+      background: #fff;
+    }
+    #signatureCanvas {
+      width: 100%;
+      height: 140px;
+      border: 1px solid #ddd;
+      touch-action: none;
+      display: block;
+      background: #fff;
+    }
+    .mf-button {
+      width: 100%;
+      padding: 12px;
+      background: #2f6f4e;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+    .mf-button:hover {
+      background: #255a3f;
+    }
+    .mf-button.secondary {
+      background: #6b7280;
+      font-size: 0.85rem;
+      padding: 6px;
+      margin-top: 8px;
+    }
+    .mf-button.secondary:hover {
+      background: #4b5563;
+    }
+    .mf-error {
+      color: red;
+      margin-top: 10px;
+    }
+    .mf-success {
+      color: green;
+      margin-top: 10px;
+    }
+    .datenschutz-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .datenschutz-block input {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      flex: 0 0 auto;
+    }
+    .datenschutz-wrap {
+      display: inline;
+      white-space: normal;
+    }
+    .datenschutz-wrap .firstline {
+      display: inline;
+    }
+    .datenschutz-wrap .continuation {
+      display: block;
+      margin-left: 0;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+  <form id="mitgliedsformular">
+    <div class="mitgliedsformular">
+      <h2>Mitgliedsantrag</h2>
+      <p class="intro">Fülle das Formular aus, um Kopilot*in zu werden.</p>
+
+      <div class="mf-row">
+        <div class="mf-full">
+          <label class="mf-option">
+            <input type="checkbox" required="">
+            Hiermit beantrage ich die Mitgliedschaft im Verein Die Kopilot*innen e.V. und erkenne die Satzung sowie Beitragssätze an.
+          </label>
+        </div></div><div class="mf-row">
+        <div class="mf-full">
+          <strong>Jahresbeitrag:</strong>
+          <label class="mf-option">
+            <input type="radio" name="beitrag" value="24" required="">
+            Ermäßigt (24 €)
+          </label>
+          <label class="mf-option">
+            <input type="radio" name="beitrag" value="60">
+            Empfohlen (60 €)
+          </label>
+          <label class="mf-option">
+            <input type="radio" name="beitrag" value="120">
+            Ich kann mit mehr unterstützen (120 €)
+          </label>
+          <label class="mf-option">
+            <input type="radio" name="beitrag" value="custom">
+            Ich möchte mit
+            <input type="number" name="betrag" min="1" step="1" style="width:90px; display:inline-block; margin:0 6px;">
+            € unterstützen
+          </label>
+        </div></div><div class="mf-row">
+        <div class="mf-col">
+          <label for="vorname">Vorname*</label>
+          <input id="vorname" name="vorname" required="">
+        </div><div class="mf-col">
+          <label for="nachname">Nachname*</label>
+          <input id="nachname" name="nachname" required="">
+        </div></div><div class="mf-row">
+        <div class="mf-full">
+          <label for="strasse">Straße und Hausnummer*</label>
+          <input id="strasse" name="strasse" required="">
+        </div></div><div class="mf-row">
+        <div class="mf-col">
+          <label for="plzort">PLZ und Ort*</label>
+          <input id="plzort" name="plzort" required="">
+        </div><div class="mf-col">
+          <label for="geburtsdatum">Geburtsdatum*</label>
+          <input id="geburtsdatum" name="geburtsdatum" type="date" required="">
+        </div></div><div class="mf-row">
+        <div class="mf-col">
+          <label for="telefon">Telefonnummer*</label>
+          <input id="telefon" name="telefon" type="tel" required="">
+        </div><div class="mf-col">
+          <label for="email">E-Mail*</label>
+          <input id="email" name="email" type="email" required="">
+        </div></div><p class="datenschutz-text">
+        Die oben angegebenen Daten werden ausschließlich zur persönlichen Kontaktaufnahme und zur Abwicklung des Mitgliedsbeitrags erhoben.
+        Mit der Speicherung und Nutzung meiner Angaben zu diesen Vereinszwecken bin ich einverstanden.
+      </p><h3>SEPA-Lastschriftmandat</h3><div class="mf-row">
+        <div class="mf-full">
+          <label class="mf-option">
+            <input type="checkbox" required="">
+            Hiermit ermächtige ich den Verein Die Kopilot*innen e.V., den Mitgliedsbeitrag von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von dem Verein Die Kopilot*innen e.V. auf mein Konto gezogenen Lastschriften einzulösen.
+          </label>
+        </div></div><div class="mf-row">
+        <div class="mf-full mf-note">
+          Hinweis: Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.
+        </div></div><div class="mf-row">
+        <div class="mf-full">
+          <label for="kontoinhaber">Kontoinhaber*in*</label>
+          <input id="kontoinhaber" name="kontoinhaber" required="">
+        </div></div><div class="mf-row">
+        <div class="mf-full">
+          <label for="iban">IBAN*</label>
+          <input id="iban" name="iban" required="" placeholder="DE00 0000 0000 0000 0000 00">
+        </div></div><h3>Datenschutz</h3><div class="mf-row">
+        <div class="mf-full">
+          <label class="mf-option datenschutz-block">
+            <input type="checkbox" required="">
+            <span class="datenschutz-wrap">
+              <span class="firstline">Ich habe die <a href="https://www.diekopis.de/datenschutz/index.php" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner personenbezogenen</span>
+              <span class="continuation">Daten gemäß DSGVO zu.</span>
+            </span>
+          </label>
+        </div></div><h3>Unterschrift</h3><div class="mf-row">
+        <div class="mf-full">
+          <label>Unterschrift*</label>
+          <div class="signature-box">
+            <canvas id="signatureCanvas"></canvas>
+            <button type="button" class="mf-button secondary" id="clearSignature">Unterschrift löschen</button>
+          </div></div></div><button class="mf-button" type="submit">Absenden</button><div id="formMessage"></div></div></form><script>
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    const clearBtn = document.getElementById('clearSignature');
+    const form = document.getElementById('mitgliedsformular');
+    const formMessage = document.getElementById('formMessage');
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#000';
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, rect.width, rect.height);
+    }
+
+    let drawing = false;
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      drawing = true;
+      canvas.setPointerCapture(e.pointerId);
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
+
+    function endDraw(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      drawing = false;
+      ctx.closePath();
+    }
+
+    canvas.addEventListener('pointerdown', startDraw);
+    canvas.addEventListener('pointermove', draw);
+    canvas.addEventListener('pointerup', endDraw);
+    canvas.addEventListener('pointercancel', endDraw);
+    canvas.addEventListener('pointerleave', endDraw);
+
+    clearBtn.addEventListener('click', () => {
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, rect.width, rect.height);
+    });
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        formMessage.innerHTML = '<p class="mf-error">Bitte fülle alle Pflichtfelder aus.</p>';
+        return;
+      }
+
+      const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
+      const formEl = document.querySelector('.mitgliedsformular');
+      const canvasEl = await html2canvas(formEl, { scale: 2, backgroundColor: '#ffffff' });
+      const imgData = canvasEl.toDataURL('image/png');
+      const pdfWidth = 210;
+      const pdfHeight = (canvasEl.height * pdfWidth) / canvasEl.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdfBlob = pdf.output('blob');
+
+      const fd = new FormData();
+      fd.append('pdf', pdfBlob, 'mitgliedsantrag.pdf');
+
+      const res = await fetch('https://mitgliedsantrag.vercel.app/api/send-pdf', {
+  method: 'POST',
+  body: fd
+});
+      const data = await res.json();
+
+      if (data.ok) {
+        formMessage.innerHTML = '<p class="mf-success">Die PDF wurde erstellt und per E-Mail verschickt.</p>';
+      } else {
+        formMessage.innerHTML = '<p class="mf-error">Beim Versand ist ein Fehler aufgetreten.</p>';
+      }
+    });
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  </script>
